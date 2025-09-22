@@ -3,6 +3,9 @@ const BASE_URL = "https://api.abuseipdb.com/api/v2";
 const API_KEY =
   "f2c3afb716768f8682440d39bb5e6ab3b9a6325949a53de4c24b47a9a983c1c5577fb722fc785499";
 
+// Load allowed origins for CORS from environment variables
+const allowedOrigins = process.env.CORS_ORIGIN;
+
 export const checkIP = async (req, res, next) => {
   const { ip } = req.params;
   axios
@@ -29,12 +32,18 @@ export const checkIP = async (req, res, next) => {
 
 export const getReports = async (req, res, next) => {
   const { ip } = req.params;
+
+  // Get the request origin from headers
+  const origin = req.get('origin');
+
   axios
     .get(`${BASE_URL}/reports`, {
       headers: {
         Key: API_KEY,
         Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // Set CORS header dynamically based on allowed origins
+        "Access-Control-Allow-Origin": allowedOrigins.includes(origin) ? origin : undefined,
+        // "Access-Control-Allow-Origin": "*",
       },
       params: {
         ipAddress: ip,
