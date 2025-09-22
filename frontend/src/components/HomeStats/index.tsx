@@ -1,9 +1,9 @@
 import {
-  RingProgress,
+  // RingProgress,
   Text,
   SimpleGrid,
   Paper,
-  Center,
+  // Center,
   Group,
   useMantineTheme,
 } from "@mantine/core";
