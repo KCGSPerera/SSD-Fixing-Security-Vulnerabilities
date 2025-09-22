@@ -8,6 +8,7 @@ const auth = {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth,
+  secure: true, // Enforce secure connection (SSL/TLS) to ensure emails are sent securely
 });
 
 //Send auto generated password to user
