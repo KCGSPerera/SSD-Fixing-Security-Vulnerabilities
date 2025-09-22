@@ -458,18 +458,29 @@ const Home: React.FC = () => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "user",
               },
+
+              // Security issue that can lead to denial of service by regex backtracking
+              // this approach used a regex replace on the email stats,
+              // which could cause performance issues or vulnerabilities with large inputs.
               {
                 label: "pwned emails",
-                stats: stats.emails
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              //   stats: stats.emails
+              //     .toString()
+              //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.emails),
                 icon: "email",
               },
+
+              // Replaced regex-based formatting with Intl.NumberFormat
+              // This ensures safe and locale-aware number formatting without regex risks.
+               
+
               {
                 label: "pwned passwords",
-                stats: stats.passwords
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                // stats: stats.passwords
+                //   .toString()
+                //   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.passwords),
                 icon: "password",
               },
             ]}
