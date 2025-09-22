@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { rateLimit } from "express-rate-limit";
 import logger from "./utils/logger";
 import "dotenv/config";
 import routes from "./api/routes";
@@ -28,7 +27,22 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+
+// Content Security Policy (CSP) misconfiguration by defining strict rules
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],              // Allow resources only from the same origin
+      scriptSrc: ["'self'"],               // Restrict scripts to local server only
+      styleSrc: ["'self'"],                // Restrict stylesheets to local server only
+      imgSrc: ["'self'", "data:"],         // Allow images from local server and inline data URIs
+      fontSrc: ["'self'"],                 // Restrict fonts to local server only
+      connectSrc: ["'self'", "http://localhost:5000"], // Allow API requests to backend
+      frameAncestors: ["'none'"],          // Prevent clickjacking by blocking framing
+      objectSrc: ["'none'"],               // Disallow plugins/objects like Flash or Java
+    }
+  })
+);
 
 // Inject Response Handler
 app.use((req, res, next) => {
