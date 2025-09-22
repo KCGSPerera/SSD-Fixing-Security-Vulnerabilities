@@ -9,9 +9,22 @@ import { connect } from "./utils/database.connection";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
 
 // Register Middleware Chain
-app.use(cors());
+app.use(limiter);
+app.use(
+  cors({
+    origin: CORS_ORIGIN,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

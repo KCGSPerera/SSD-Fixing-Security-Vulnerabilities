@@ -451,11 +451,18 @@ const Home: React.FC = () => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "breach",
               },
+              // {
+              //   label: "Total accounts",
+              //   stats: stats.accounts
+              //     .toString()
+              //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              //   icon: "user",
+              // },
+
+              // Format the number safely
               {
                 label: "Total accounts",
-                stats: stats.accounts
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.accounts),
                 icon: "user",
               },
 
