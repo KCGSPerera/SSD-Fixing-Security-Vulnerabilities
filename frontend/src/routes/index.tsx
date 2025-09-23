@@ -1,6 +1,6 @@
 import { AdminLogin, Home, UserLoginPage } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Logout } from "../components";
+import { Logout, OAuthCallback } from "../components";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import UserPrivateRoute from "./UserPrivateRoute";
 import {
@@ -32,6 +32,7 @@ const PageRoutes: React.FC = () => {
         />
         <Route path="/login" element={<UserLoginPage />} />
         <Route path="/signup" element={<UserSignUpPage />} />
+        <Route path="/auth/callback" element={<OAuthCallback />} />
         <Route path="/password-generator" element={<PasswordGeneratorPage />} />
         <Route path="/ip-check" element={<IPCheck />} />
         <Route

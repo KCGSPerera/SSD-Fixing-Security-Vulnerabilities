@@ -208,6 +208,30 @@ export const forgotPassword = async (req, res, next) => {
     });
 };
 
+export const googleAuthCallback = async (req, res, next) => {
+  try {
+    // User is available in req.user after successful authentication
+    const user = req.user;
+    
+    // Generate JWT token (similar to your existing login)
+    const token = await userService.generateToken(user._id);
+    
+    // Redirect to frontend with token
+    const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      profilePicture: user.profilePicture
+    }))}`;
+    
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error('Google OAuth callback error:', error);
+    res.redirect(`${process.env.CLIENT_URL}/login?error=oauth_callback_failed`);
+  }
+};
+
 module.exports = {
   createUser,
   getUser,
@@ -219,4 +243,5 @@ module.exports = {
   signupUser,
   changePassword,
   forgotPassword,
+  googleAuthCallback,
 };

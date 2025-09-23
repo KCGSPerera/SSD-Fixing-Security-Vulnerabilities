@@ -2,13 +2,15 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
+import session from "express-session";
 import logger from "./utils/logger";
 import "dotenv/config";
 import routes from "./api/routes";
 import responseHandler from "./utils/response.handler";
 import { connect } from "./utils/database.connection";
 import mongoSanitize from "express-mongo-sanitize";  
-import xssClean from "xss-clean";  
+import xssClean from "xss-clean";
+import passport from "./configs/passport.js";  
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -39,6 +41,21 @@ app.use(xssClean());
 
 app.use(express.json({limit : "500kb"})); // limit JSON body to 500KB to prevent DoS
 app.use(express.urlencoded({ extended: true,limit : "500kb" })); // limit URL-encoded body to 500KB to prevent DoS
+
+// Session configuration for passport
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key-change-this',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // Set to true if using HTTPS
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Content Security Policy (CSP) misconfiguration by defining strict rules
 app.use(

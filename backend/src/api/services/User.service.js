@@ -200,6 +200,31 @@ export const checkEmail = async (email) => {
     });
 };
 
+export const generateToken = async (userId) => {
+  try {
+    const userData = await user.findById(userId);
+    if (!userData) {
+      throw new Error("User not found");
+    }
+
+    const accessToken = jwt.sign(
+      {
+        _id: userData._id,
+        email: userData.email,
+        role: "user",
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    return accessToken;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default {
   createUser,
   getUser,
@@ -211,4 +236,5 @@ export default {
   signupUser,
   changePassword,
   checkEmail,
+  generateToken,
 };

@@ -25,11 +25,28 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function() {
+        return !this.googleId; // Password is required only if not using Google OAuth
+      },
     },
     dateOfBirth: {
       type: Date,
-      required: true,
+      required: function() {
+        return !this.googleId; // Date of birth is required only if not using Google OAuth
+      },
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows null values to be non-unique
+    },
+    profilePicture: {
+      type: String,
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local',
     },
   },
   { timestamps: true }
