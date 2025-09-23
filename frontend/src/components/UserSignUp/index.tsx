@@ -10,11 +10,12 @@ import {
   Box,
   Center,
   Progress,
+  Divider,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import UserAPI from "../../api/UserAPI";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconCheck, IconAlertTriangle, IconX } from "@tabler/icons";
+import { IconCheck, IconAlertTriangle, IconX, IconBrandGoogle } from "@tabler/icons";
 import { Link } from "react-router-dom";
 
 function PasswordRequirement({
@@ -109,6 +110,15 @@ function userSignUp(values: {
         autoClose: 5000,
       });
     });
+}
+
+function handleGoogleSignUp(): void {
+  // Store the intended redirect URL before OAuth
+  const redirectUrl = localStorage.getItem("redirectUrl") || "/";
+  localStorage.setItem("preOAuthRedirect", redirectUrl);
+  
+  // Redirect to backend Google OAuth endpoint
+  window.location.href = `${process.env.REACT_APP_API_URL || 'http://localhost:8090'}/auth/google`;
 }
 
 const UserSignUp: React.FC = () => {
@@ -249,6 +259,19 @@ const UserSignUp: React.FC = () => {
             Sign Up
           </Button>
         </form>
+        
+        <Divider label="Or continue with" labelPosition="center" my="lg" />
+        
+        <Button
+          fullWidth
+          leftIcon={<IconBrandGoogle size={16} />}
+          variant="outline"
+          color="gray"
+          onClick={handleGoogleSignUp}
+        >
+          Sign up with Google
+        </Button>
+        
         <Group position="center" mt="md">
           <Text color="dimmed" size="sm">
             Already have an account?

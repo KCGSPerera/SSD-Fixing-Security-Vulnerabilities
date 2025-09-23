@@ -19,6 +19,7 @@ import UserSettings from "./UserSettings";
 import Hero from "./Hero";
 import UserForgotPassword from "./UserForgotPassword";
 import AdminForgotPassword from "./AdminForgotPassword";
+import OAuthCallback from "./OAuthCallback";
 
 export {
   Logout,
@@ -42,4 +43,5 @@ export {
   Hero,
   UserForgotPassword,
   AdminForgotPassword,
+  OAuthCallback,
 };

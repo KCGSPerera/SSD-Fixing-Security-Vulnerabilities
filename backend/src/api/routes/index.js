@@ -5,6 +5,7 @@ import vaultController from "../controllers/Vault.controller";
 import statsController from "../controllers/Stats.controller";
 import ipCheckController from "../controllers/IPCheck.controller";
 import protect from "../middleware/Auth.middleware";
+import passport from "../../configs/passport.js";
 
 const routes = (app) => {
   //Admin Routes
@@ -45,6 +46,20 @@ const routes = (app) => {
     userController.changePassword
   );
   app.post("/user/forgot-password", userController.forgotPassword);
+
+  // Google OAuth Routes
+  app.get("/auth/google", 
+    passport.authenticate("google", { 
+      scope: ["profile", "email"] 
+    })
+  );
+
+  app.get("/auth/google/callback",
+    passport.authenticate("google", { 
+      failureRedirect: process.env.CLIENT_URL + "/login?error=oauth_failed" 
+    }),
+    userController.googleAuthCallback
+  );
 
   //Breach Routes
   app.post("/breach", protect.adminProtect, breachController.createBreach);
