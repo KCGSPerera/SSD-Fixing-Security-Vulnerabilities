@@ -15,6 +15,10 @@ import passport from "./configs/passport.js";
 const app = express();
 const PORT = process.env.PORT || "8090";
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
+
+// Disable 'X-Powered-By: Express' header
+app.disable("x-powered-by");
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
