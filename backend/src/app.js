@@ -61,6 +61,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Prevent your site from being framed
+app.use(helmet.frameguard({ action: "deny" }));
+
 // Content Security Policy (CSP) misconfiguration by defining strict rules
 app.use(
   helmet.contentSecurityPolicy({
