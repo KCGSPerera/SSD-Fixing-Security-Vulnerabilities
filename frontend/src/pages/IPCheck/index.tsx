@@ -206,7 +206,7 @@ const IPCheck: React.FC = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // Error handled by notification system
         updateNotification({
           id: "searching",
           color: "red",

@@ -63,7 +63,7 @@ const UserForgotPassword = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        // Error handled by notification system
         updateNotification({
           id: "forgot-password",
           color: "red",

@@ -239,7 +239,7 @@ const ManageBreaches: React.FC = () => {
     });
     BreachAPI.importBreaches(values)
       .then((response) => {
-        console.log(response);
+        // Success handled by notification system
         updateNotification({
           id: "importing-data",
           color: "teal",
@@ -250,7 +250,7 @@ const ManageBreaches: React.FC = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        // Error handled by notification system
         updateNotification({
           id: "importing-data",
           color: "red",
@@ -285,7 +285,7 @@ const ManageBreaches: React.FC = () => {
         setBreachedDataSortedData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        // Error handled by notification system
         updateNotification({
           id: "loading-data",
           color: "red",

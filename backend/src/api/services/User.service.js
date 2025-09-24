@@ -45,7 +45,7 @@ export const signupUser = async (userObj) => {
 
   const emailExists = await user.findOne({ email: userObj.email });
   if (emailExists) {
-    throw new Error("Email already exists");
+    throw new Error("Registration Failed");
   } else {
     return await user
       .create(userObj)
